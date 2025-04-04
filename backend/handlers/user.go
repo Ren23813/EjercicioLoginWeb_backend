@@ -7,9 +7,10 @@ import (
     "net/http"
     "strconv"
     "github.com/go-chi/chi/v5"
+    "ejLogin/models"
 )
 
-func getUserHandler(db *sql.DB) http.HandlerFunc {
+func GetUserHandler(db *sql.DB) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         // Obtener userID de la URL
         userIDStr := chi.URLParam(r, "userID")
@@ -19,7 +20,7 @@ func getUserHandler(db *sql.DB) http.HandlerFunc {
             return
         }
 
-        var userResp UserResponse // Usa la struct segura para respuestas
+        var userResp models.UserResponse // Usa la struct segura para respuestas
         err = db.QueryRow("SELECT id, username FROM users WHERE id = ?", userID).Scan(&userResp.ID, &userResp.Username)
         if err != nil {
             if err == sql.ErrNoRows {

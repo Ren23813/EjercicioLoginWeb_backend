@@ -9,6 +9,7 @@ import (
         "ejLogin/models"
 
 	"golang.org/x/crypto/bcrypt"
+	"strconv"
 )
 
 func PostLoginHandler(db *sql.DB) http.HandlerFunc {
@@ -64,8 +65,9 @@ func PostLoginHandler(db *sql.DB) http.HandlerFunc {
 
 		log.Printf("Login successful for user ID: %d (%s)", userID, req.Username)
 
+        userIDStr := strconv.FormatInt(userID, 10)
 		loginData := models.LoginSuccessData{
-			UserID:   userID,
+			UserID:   userIDStr,
 			Username: req.Username,
 		}
 	response := models.NewSuccessResponse(loginData)
